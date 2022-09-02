@@ -2,18 +2,25 @@
 const APIUrl = "https://api.github.com"
 const RepoAPI = APIUrl+"/repos"
 const ReposUrl = '/users/hellMaster120/repos'
-
 const LangUrl = "/languages"
 const FileUrl = "/contents"
+
 let FileData = {}
+var Cookies;
+var Cookie
 
-
-
-
-document.cookie = "username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC";
-
-
-
+function CheckNewData(){
+  Cookie = document.cookie.replace(" ","").search("CheckData")
+  if(Cookie == -1){
+    const d = new Date();
+    d.setTime(d.getTime() + (2 * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    console.log(document.cookie)
+    document.cookie = "CheckData "+ "=" + ";" + expires + ";path=/";
+    console.log(document.cookie)
+    GetRepo()
+  }
+}
 
 function GetLeng(Data,FileData){
   new Promise(resolve => {
@@ -52,7 +59,7 @@ function GetFiles(Data,FileData){
 }
 
 function HandelData(Data,FileData){
-  console.log(Data)
+  console.log(FileData)
 
 }
 
@@ -101,6 +108,7 @@ function GetRepo(){
   })
 }
 
+setInterval(CheckNewData,3000)
 
 
 
@@ -110,6 +118,20 @@ function GetRepo(){
 
 
 /*
+
+  Cookies = Cookie.split(";")
+  Cookies.forEach(Data=>{
+    CookieData = Data.replace(" ","").split("=")
+    CookieKey = CookieData[0]
+    CookieVaule = CookieData[1]
+    if(CookieKey == "CheckData"){
+      console.log(CookieKey)
+    }else{
+
+    }
+  })  
+
+
 fetch(APIUrl+ReposUrl)
 .then(Res => {Res.json()
   .then(Data =>{
